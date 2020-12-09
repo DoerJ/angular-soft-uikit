@@ -1,0 +1,1 @@
+export { NeumoService } from '@modules/service/neumo.service';
