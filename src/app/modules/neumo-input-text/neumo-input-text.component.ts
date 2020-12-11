@@ -21,11 +21,9 @@ export class NeumoInputTextComponent implements OnInit, AfterViewInit, OnDestroy
   @Input() model: string;
   @Output() modelChange = new EventEmitter<string>();
 
-  inputboxWidth: number;
-  inputboxHeight: number;
   shadows: any = {};
   background: string;
-  style: any = {
+  _style: any = {
     'border-radius': `4px`,
     'outline': 'none'
   };
@@ -55,9 +53,15 @@ export class NeumoInputTextComponent implements OnInit, AfterViewInit, OnDestroy
   ngAfterViewInit(): void {
     var inputbox: HTMLElement = document.getElementById(self.name);
     var rect: DOMRect = inputbox.getBoundingClientRect();
-    self.inputboxWidth = rect.width;
-    self.inputboxHeight = rect.height;
-    self.applyStyles();
+    self.neumoProps.width = rect.width;
+    self.neumoProps.background = self.background;
+    self.neumoProps.shadows = self.shadows;
+    self.neumoProps.corner = self.corner;
+    
+    var style: any = NeumoService.getStyles('dent', self.neumoProps);
+    self._style = {...self._style, ...style};
+    // notify the detection tree about the style change
+    self.detectorRef.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -67,15 +71,5 @@ export class NeumoInputTextComponent implements OnInit, AfterViewInit, OnDestroy
   modelOnChange(): void {
     self.modelChange.emit(self.model);
   }
-
-  applyStyles(): void {
-    if (self.corner && self.corner === 'round') {
-      self.style['border-radius'] = self.inputboxWidth / 2 + 'px';
-    }
-    self.style.background = self.background;
-    self.style['box-shadow'] = `inset ${self.neumoProps.distance}px ${self.neumoProps.distance}px ${self.neumoProps.blur}px ${self.shadows.dark},` + 
-      `inset -${self.neumoProps.distance}px -${self.neumoProps.distance}px ${self.neumoProps.blur}px ${self.shadows.light}`;
-    // notify the detection tree about the style change
-    self.detectorRef.detectChanges();
-  }
+  
 }

@@ -17,15 +17,13 @@ export class NeumoButtonComponent implements OnInit, AfterViewInit {
 
   background: string;
   shadows: any = {};
-  inputboxWidth: number;
-  inputboxHeight: number;
   neumoProps: any = {
     distance: 5,
     blur: 10,
     intensity: 0.11
   };
-  style: any = {
-    'border': 'none',
+  _style: any = {
+    'border': 'none', 
     'border-radius': `4px`,
     'outline': 'none'
   };
@@ -42,18 +40,13 @@ export class NeumoButtonComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     var inputbox: HTMLElement = document.getElementById(self.name);
     var rect: DOMRect = inputbox.getBoundingClientRect();
-    self.inputboxWidth = rect.width;
-    self.inputboxHeight = rect.height;
-    self.applyStyles();
-  }
+    self.neumoProps.width = rect.width;
+    self.neumoProps.background = self.background;
+    self.neumoProps.shadows = self.shadows;
+    self.neumoProps.corner = self.corner;
 
-  applyStyles(): void {
-    if (self.corner && self.corner === 'round') {
-      self.style['border-radius'] = self.inputboxWidth / 2 + 'px';
-    }
-    self.style.background = self.background;
-    self.style['box-shadow'] = `${self.neumoProps.distance}px ${self.neumoProps.distance}px ${self.neumoProps.blur}px ${self.shadows.dark},` + 
-      `-${self.neumoProps.distance}px -${self.neumoProps.distance}px ${self.neumoProps.blur}px ${self.shadows.light}`;
+    var style = NeumoService.getStyles('emboss', self.neumoProps);
+    self._style = {...self._style, ...style};
     // notify the detection tree about the style change
     self.detectorRef.detectChanges();
   }

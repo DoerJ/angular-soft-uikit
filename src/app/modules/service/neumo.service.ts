@@ -31,4 +31,26 @@ export class NeumoService {
 
     return { dark: shadow_dark, light: shadow_light };
   }
+
+  static getStyles(type: string, props: any): any {
+    var style: any = {};
+    if (props.corner && props.corner === 'round') {
+      style['border-radius'] = props.width / 2 + 'px';
+    }
+    style.background = props.background;
+    switch(type) {
+      case 'dent':
+        style['box-shadow'] = `inset ${props.distance}px ${props.distance}px ${props.blur}px ${props.shadows.dark},` + 
+          `inset -${props.distance}px -${props.distance}px ${props.blur}px ${props.shadows.light}`;
+        break;
+      case 'emboss':
+        style['box-shadow'] = `${props.distance}px ${props.distance}px ${props.blur}px ${props.shadows.dark},` + 
+          `-${props.distance}px -${props.distance}px ${props.blur}px ${props.shadows.light}`;
+        break;
+      default: 
+        break;
+    }
+    
+    return style;
+  }
 }

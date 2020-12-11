@@ -1,4 +1,4 @@
 <div class="form-group">
   <label [innerText]="label" style="display: block;"></label>
-  <input class="from-control neumo-dent" type="text" id="{{name}}" [name]="name" [(ngModel)]="model" (ngModelChange)="updateModel.next()" [placeholder]="placeholder" [ngStyle]="style">
+  <input class="from-control neumo-dent" type="text" id="{{name}}" [name]="name" [(ngModel)]="model" (ngModelChange)="updateModel.next()" [placeholder]="placeholder" [ngStyle]="_style">
 </div>

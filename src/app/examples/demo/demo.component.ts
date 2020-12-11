@@ -6,6 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./demo.component.less']
 })
 export class DemoComponent implements OnInit {
+  // background color 
+  _backgroundColor: string = '#d6d1d1';
+
+  // neumo-card 
+  _cardConfigs: any = {
+    title: 'Example Card Title',
+    text: 'This is an example text',
+    link: '#'
+  }
 
   constructor() { }
 

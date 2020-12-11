@@ -8,7 +8,8 @@ import {
   MainComponent,
   DemoComponent,
   NeumoInputTextComponent,
-  NeumoButtonComponent
+  NeumoButtonComponent,
+  NeumoCardComponent
 } from '@app/component';
 
 @NgModule({
@@ -16,7 +17,8 @@ import {
   MainComponent,
   NeumoInputTextComponent,
   DemoComponent,
-  NeumoButtonComponent
+  NeumoButtonComponent,
+  NeumoCardComponent
 ],
   imports: [
     BrowserModule,
