@@ -9,16 +9,18 @@ import {
   DemoComponent,
   NeumoInputTextComponent,
   NeumoButtonComponent,
-  NeumoCardComponent
+  NeumoCardComponent,
+  NeumoInputEmailComponent
 } from '@app/component';
 
 @NgModule({
   declarations: [
   MainComponent,
-  NeumoInputTextComponent,
   DemoComponent,
+  NeumoInputTextComponent,
   NeumoButtonComponent,
-  NeumoCardComponent
+  NeumoCardComponent,
+  NeumoInputEmailComponent
 ],
   imports: [
     BrowserModule,

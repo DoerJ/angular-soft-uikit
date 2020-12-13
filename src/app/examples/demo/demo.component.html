@@ -1,12 +1,17 @@
 <div class="form-group" style="background-color: #d6d1d1; padding: 30px;">
   <h2>Demo</h2>
-  <neumo-input-text name="demo-input-text" label="neumo-input-text" [backgroundColor]="_backgroundColor" corner="round"></neumo-input-text>
+  <div>
+    <neumo-input-text name="demo-input-text" label="neumo-input-text" [backgroundColor]="_backgroundColor" corner="round"></neumo-input-text>
+  </div>
+  <div>
+    <neumo-input-email></neumo-input-email>
+  </div>
   <div>
     <label>demo-button</label>
-    <neumo-button name="demo-button" label="neumo-button" [backgroundColor]="_backgroundColor"></neumo-button>
+    <neumo-button name="demo-button-1" label="neumo-button-1" [backgroundColor]="_backgroundColor"></neumo-button>
   </div>
   <div>
     <label>demo-card</label>
-    <neumo-card name="demo-card" [cardData]="_cardConfigs" [backgroundColo]="_backgroundColor"></neumo-card>
+    <neumo-card name="demo-card" [cardData]="_cardConfigs" [backgroundColor]="_backgroundColor"></neumo-card>
   </div>
 </div>

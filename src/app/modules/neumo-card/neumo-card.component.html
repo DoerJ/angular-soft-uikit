@@ -1,8 +1,9 @@
-<div class="card" [id]="name" style="width: 18rem;">
-  <img *ngIf="image" class="card-img-top" src="{{image}}" alt="Card image cap">
+<div class="card" [id]="name" *ngIf="cardData" style="width: 18rem; color: #ffffff" [ngStyle]="_style">
+  <img *ngIf="image" class="card-img-top" src="{{cardData.image}}" alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title" *ngIf="cardTitle">{{cardTitle}}</h5>
-    <p class="card-text" *ngIf="cardText">{{cardText}}</p>
-    <a href="#" class="btn btn-primary" *ngIf="link">Go somewhere</a>
+    <h5 class="card-title" [innerText]="cardData.title"></h5>
+    <p class="card-text" [innerText]="cardData.text"></p>
+    <!-- <a href="#" class="btn btn-primary" *ngIf="link">Go somewhere</a> -->
+    <neumo-button name="card-button" label="Go somewhere" [backgroundColor]="background"></neumo-button>
   </div>
 </div>

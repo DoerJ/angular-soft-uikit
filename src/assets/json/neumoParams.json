@@ -1,0 +1,7 @@
+{
+  "default" : {
+    "distance": 5,
+    "blur": 10,
+    "intensity": 0.11
+  }
+}

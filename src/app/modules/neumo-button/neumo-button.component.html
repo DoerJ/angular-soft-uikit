@@ -1,3 +1,3 @@
 <div class="form-group">
-  <button class="btn btn-primary" id="{{name}}" [name]="name" type="submit" [ngStyle]="_style">{{label}}</button>
+  <button class="btn btn-primary" [id]="name" [name]="name" type="submit" [ngStyle]="_style" [innerText]="label" (click)="onClick()"></button>
 </div>

@@ -1,8 +1,6 @@
-import { NONE_TYPE } from '@angular/compiler';
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { NeumoService } from '@app/service';
 
-var self: NeumoButtonComponent;
 @Component({
   selector: 'neumo-button',
   templateUrl: './neumo-button.component.html',
@@ -28,26 +26,25 @@ export class NeumoButtonComponent implements OnInit, AfterViewInit {
     'outline': 'none'
   };
 
-  constructor(private detectorRef: ChangeDetectorRef) {
-    self = this;
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    self.background = self.backgroundColor ? self.backgroundColor : '#ffffff';
-    self.shadows = NeumoService.getShadowByIntensity(self.background, self.neumoProps.intensity);
+    this.background = this.backgroundColor ? this.backgroundColor : '#ffffff';
+    this.shadows = NeumoService.getShadowByIntensity(this.background);
   }
 
   ngAfterViewInit(): void {
-    var inputbox: HTMLElement = document.getElementById(self.name);
+    var inputbox: HTMLElement = document.getElementById(this.name);
     var rect: DOMRect = inputbox.getBoundingClientRect();
-    self.neumoProps.width = rect.width;
-    self.neumoProps.background = self.background;
-    self.neumoProps.shadows = self.shadows;
-    self.neumoProps.corner = self.corner;
+    this.neumoProps.width = rect.width;
+    this.neumoProps.background = this.background;
+    this.neumoProps.shadows = this.shadows;
+    this.neumoProps.corner = this.corner;
 
-    var style = NeumoService.getStyles('emboss', self.neumoProps);
-    self._style = {...self._style, ...style};
-    // notify the detection tree about the style change
-    self.detectorRef.detectChanges();
+    var style = NeumoService.getStyles('emboss', this.neumoProps);
+    this._style = {...this._style, ...style};
+  }
+
+  onClick(): void {
   }
 }

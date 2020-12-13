@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
+import * as data from 'src/assets/json/neumoParams.json';
 
+interface NeumoProps {
+  distance: number,
+  intensity: number,
+  blur: number
+}
 @Injectable({
   providedIn: 'root'
 })
 export class NeumoService {
 
+  static neumoProps: any = (data as any).default['default'];
+
   constructor() { }
 
-  static getShadowByIntensity(background_hex: string, intensity: number): any {
+  static getShadowByIntensity(background_hex: string): any {
     var shadow_dark: string = '#';
     var shadow_light: string = '#';
     var rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(background_hex);
@@ -17,8 +25,8 @@ export class NeumoService {
       b: parseInt(rgb[3], 16)
     };
     Object.keys(colors).forEach(color => {
-      let darkcolor: number = Math.floor(colors[color] * (1 - intensity));
-      let lightcolor: number = Math.floor(colors[color] * (1 + intensity));
+      let darkcolor: number = Math.floor(colors[color] * (1 - NeumoService.neumoProps.intensity));
+      let lightcolor: number = Math.floor(colors[color] * (1 + NeumoService.neumoProps.intensity));
       lightcolor = lightcolor > 255 ? 255 : lightcolor;
       
       let hex_dark: string = darkcolor.toString(16);
@@ -38,19 +46,30 @@ export class NeumoService {
       style['border-radius'] = props.width / 2 + 'px';
     }
     style.background = props.background;
-    switch(type) {
+    var defaultShadow: string = `inset ${props.distance}px ${props.distance}px ${props.blur}px ${props.shadows.dark},` + 
+    `inset -${props.distance}px -${props.distance}px ${props.blur}px ${props.shadows.light}`;
+    switch (type) {
       case 'dent':
-        style['box-shadow'] = `inset ${props.distance}px ${props.distance}px ${props.blur}px ${props.shadows.dark},` + 
-          `inset -${props.distance}px -${props.distance}px ${props.blur}px ${props.shadows.light}`;
+        style['box-shadow'] = defaultShadow;
         break;
       case 'emboss':
         style['box-shadow'] = `${props.distance}px ${props.distance}px ${props.blur}px ${props.shadows.dark},` + 
           `-${props.distance}px -${props.distance}px ${props.blur}px ${props.shadows.light}`;
         break;
       default: 
+        style['box-shadow'] = defaultShadow;
         break;
     }
     
     return style;
+  }
+
+  static neumoPropsProcessor(extras: any): any {
+    var props: any = {};
+    Object.keys(extras).forEach(key => {
+      props[`${key}`] = extras[`${key}`];
+    })
+    
+    return {...NeumoService.neumoProps, ...props};
   }
 }

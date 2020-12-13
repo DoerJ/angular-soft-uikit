@@ -1,10 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { NeumoService } from '@app/service';
 
-var self: NeumoInputTextComponent;
 @Component({
   selector: 'neumo-input-text',
   templateUrl: './neumo-input-text.component.html',
@@ -21,55 +20,54 @@ export class NeumoInputTextComponent implements OnInit, AfterViewInit, OnDestroy
   @Input() model: string;
   @Output() modelChange = new EventEmitter<string>();
 
+  // style params
   shadows: any = {};
   background: string;
   _style: any = {
+    'border': 'none',
     'border-radius': `4px`,
     'outline': 'none'
   };
+
   // debounce time 
   delay: number = 500;
   updateModel: Subject<any> = new Subject<any>();
 
-  // default neumo params
-  neumoProps: any = {
-    distance: 5,
-    blur: 10,
-    intensity: 0.11
-  }
-
-  constructor(private detectorRef: ChangeDetectorRef) {
-    self = this;
+  constructor() {
+    var self = this;
     self.updateModel.pipe(debounceTime(self.delay)).subscribe(() => {
       self.modelOnChange();
     });
   }
 
   ngOnInit(): void {
+    var self = this;
     self.background = self.backgroundColor ? self.backgroundColor : '#ffffff';
-    self.shadows = NeumoService.getShadowByIntensity(self.background, self.neumoProps.intensity);
+    self.shadows = NeumoService.getShadowByIntensity(self.background);
   }
 
   ngAfterViewInit(): void {
+    var self = this;
     var inputbox: HTMLElement = document.getElementById(self.name);
     var rect: DOMRect = inputbox.getBoundingClientRect();
-    self.neumoProps.width = rect.width;
-    self.neumoProps.background = self.background;
-    self.neumoProps.shadows = self.shadows;
-    self.neumoProps.corner = self.corner;
+
+    var props = NeumoService.neumoPropsProcessor({
+      width: rect.width,
+      background: self.background,
+      shadows: self.shadows,
+      corner: self.corner
+    });
     
-    var style: any = NeumoService.getStyles('dent', self.neumoProps);
+    var style: any = NeumoService.getStyles('dent', props);
     self._style = {...self._style, ...style};
-    // notify the detection tree about the style change
-    self.detectorRef.detectChanges();
   }
 
   ngOnDestroy(): void {
-    self.updateModel.unsubscribe();
+    this.updateModel.unsubscribe();
   }
 
   modelOnChange(): void {
-    self.modelChange.emit(self.model);
+    this.modelChange.emit(this.model);
   }
-  
+
 }
